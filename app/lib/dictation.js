@@ -128,13 +128,13 @@ function processData(data) {
                     });
                 }
             }
-        } else if (match.includes('list all ingredients')) {
+        } else if (match.includes('list ingredients')) {
             section = 'ingredients';
             pointer = recipe.ingredients.length - 1;
             tts.speak({
                 text: recipe.ingredients.join('\n')
             });
-        } else if (match.includes('list all steps')) {
+        } else if (match.includes('list steps')) {
             section = 'steps';
             pointer = recipe.steps.length - 1;
             tts.speak({
