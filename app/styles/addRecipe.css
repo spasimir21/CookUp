@@ -1,0 +1,90 @@
+.centered {
+    position: relative;
+    width: fit-content;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -200%);
+}
+
+.centered-child {
+    display: flex;
+}
+
+input {
+    margin: 5px;
+    color: #454545;
+    border-color: #454545;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+}
+
+input:focus {
+    outline: none;
+}
+
+p {
+    margin: 5px;
+    display: block;
+    color: #454545;
+    text-align: right;
+    font-size: 23px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.errorText {
+    margin: 0px;
+    position: absolute;
+    color: red;
+    text-align: center;
+    width: fit-content;
+    top: 130%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 23px;
+    font-family: 'Nunito', sans-serif;
+}
+
+button {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    position: fixed;
+    top: 75%;
+    left: 50%;
+    background-color: #454545;
+    color: #f4f3ee;
+    border-width: 0px;
+    font-size: 26px;
+    font-family: 'Nunito', sans-serif;
+    transform: translate(-50%, -50%);
+}
+
+button:disabled {
+    opacity: 0.4;
+}
+
+button:focus {
+    outline: none;
+}
+
+.statusText {
+    margin: 0px;
+    position: fixed;
+    color: #454545;
+    text-align: center;
+    width: fit-content;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 38px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.red {
+    color: red;
+}

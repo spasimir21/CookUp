@@ -1,0 +1,44 @@
+button {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    color: #f4f3ee;
+    border-width: 0px;
+    font-size: 25px;
+    font-family: 'Nunito', sans-serif;
+    background-color: darkcyan;
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    transform: translate(-50%, -50%);
+}
+
+button:disabled {
+    opacity: 0.4;
+}
+
+button:focus {
+    outline: none;
+}
+
+input {
+    margin: 5px;
+    color: #454545;
+    border-color: #454545;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 2px;
+    font-size: 23px;
+    font-family: 'Nunito', sans-serif;
+    position: absolute;
+    left: 50%;
+    top: 37%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+}
+
+input:focus {
+    outline: none;
+}

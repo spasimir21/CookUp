@@ -1,0 +1,51 @@
+.ThereAreNoRecipes {
+    margin: 0px;
+    display: inline-block;
+    color: #454545;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    font-size: 26px;
+    font-family: 'Nunito', sans-serif;
+    transform: translate(-50%, -50%);
+}
+
+.recipe {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recipe p {
+    margin: 15px;
+    margin-left: 7px;
+    display: block;
+    color: #454545;
+    text-align: left;
+    font-size: 26px;
+    font-family: 'Nunito', sans-serif;
+    width: fit-content;
+}
+
+hr {
+    margin: 0px;
+    background-color: #454545;
+    border-width: 0px;
+    height: 1px;
+}
+
+.view {
+    margin: 10px;
+    width: 50px;
+    height: 50px;
+}
+
+.cook {
+    margin: 10px;
+    margin-left: 5px;
+    width: 35px;
+    height: 35px;
+}

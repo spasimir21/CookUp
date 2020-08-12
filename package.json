@@ -1,0 +1,26 @@
+{
+  "name": "cook-up",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "resources": "cordova-res android && node scripts/resources.js"
+  },
+  "keywords": [
+    "capacitor",
+    "mobile"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor-community/speech-recognition": "0.0.4",
+    "@capacitor/android": "^2.4.0",
+    "@capacitor/cli": "^2.4.0",
+    "@capacitor/core": "^2.4.0",
+    "capacitor-keep-screen-on": "^1.0.0-alpha.6",
+    "capacitor-tts": "0.0.2"
+  },
+  "devDependencies": {
+    "cordova-res": "^0.15.1"
+  }
+}

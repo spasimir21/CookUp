@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Cook Up</string>
+    <string name="title_activity_main">Cook Up</string>
+    <string name="package_name">com.SPStudios.CookUp</string>
+    <string name="custom_url_scheme">com.SPStudios.CookUp</string>
+</resources>

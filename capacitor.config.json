@@ -1,0 +1,12 @@
+{
+    "appId": "com.SPStudios.CookUp",
+    "appName": "Cook Up",
+    "bundledWebRuntime": true,
+    "npmClient": "npm",
+    "webDir": "app",
+    "plugins": {
+        "SplashScreen": {
+            "launchShowDuration": 0
+        }
+    }
+}
