@@ -132,7 +132,7 @@ function processData(data) {
             section = 'ingredients';
             pointer = recipe.ingredients.length - 1;
             tts.speak({
-                text: recipe.ingredients.join(';\n')
+                text: recipe.ingredients.join('\n')
             });
         } else if (match.includes('list all steps')) {
             section = 'steps';
@@ -140,7 +140,7 @@ function processData(data) {
             tts.speak({
                 text: recipe.steps
                     .map((step, idx) => `Step number ${idx + 1}. ${step}`)
-                    .join(';\n')
+                    .join('\n')
             });
         } else if (
             match.includes('goto ingredients') ||
