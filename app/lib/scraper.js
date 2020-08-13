@@ -242,6 +242,34 @@ function ezineScraper(html) {
     return recipe;
 }
 
+function gotvachaScraper(html) {
+    const recipe = {};
+
+    //Name
+    recipe.name = html.querySelector('h1').textContent;
+
+    //Ingredients
+    recipe.ingredients = Array.from(
+        html.querySelectorAll("[itemprop='recipeIngredient']")
+    ).map(el => el.textContent);
+
+    //Steps
+    recipe.steps = Array.from(
+        html.querySelectorAll("[itemprop='recipeInstructions'] > li")
+    ).map(el => el.textContent);
+
+    //Clean-up
+    recipe.ingredients = recipe.ingredients.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    recipe.steps = recipe.steps.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    return recipe;
+}
+
 //Validator
 
 function validate(url, scrappers) {
@@ -317,6 +345,7 @@ const scrappers = {
     'supichka.com': supichkaScraper,
     'recepti.gotvach.bg': gotvachScraper,
     'm.kulinar.bg': kulinarScraper,
+    'www.kulinar.bg': kulinarScraper,
     'kulinar.bg': kulinarScraper,
     '1001recepti.com': _1001receptiScraper,
     'www.1001recepti.com': _1001receptiScraper,
@@ -325,7 +354,9 @@ const scrappers = {
     'receptite.com': receptiteScraper,
     'www.bonapeti.bg': bonapetiScraper,
     'bonapeti.bg': bonapetiScraper,
-    'recepti.ezine.bg': ezineScraper
+    'recepti.ezine.bg': ezineScraper,
+    'www.gotvacha.com': gotvachaScraper,
+    'gotvacha.com': gotvachaScraper
 };
 
 const charSets = {
