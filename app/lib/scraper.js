@@ -172,6 +172,41 @@ function receptiteScraper(html) {
     return recipe;
 }
 
+function bonapetiScraper(html) {
+    const recipe = {};
+
+    //Name
+    recipe.name = html.querySelector('h1').innerText;
+
+    //Extra
+    html.querySelectorAll('.recipeProductsContainer b').forEach(el => {
+        const span = document.createElement('span');
+        span.innerText = el.innerText;
+        el.replaceWith(span);
+    });
+
+    //Ingredients
+    recipe.ingredients = Array.from(
+        html.querySelectorAll('.recipeProductsContainer span')
+    ).map(el => el.innerText);
+
+    //Steps
+    recipe.steps = Array.from(html.querySelectorAll('.stepDescription')).map(
+        el => el.textContent
+    );
+
+    //Clean-up
+    recipe.ingredients = recipe.ingredients.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    recipe.steps = recipe.steps.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    return recipe;
+}
+
 //Validator
 
 function validate(url, scrappers) {
@@ -252,7 +287,9 @@ const scrappers = {
     'www.1001recepti.com': _1001receptiScraper,
     'm.1001recepti.com': _1001receptiScraper,
     'www.receptite.com': receptiteScraper,
-    'receptite.com': receptiteScraper
+    'receptite.com': receptiteScraper,
+    'www.bonapeti.bg': bonapetiScraper,
+    'bonapeti.bg': bonapetiScraper
 };
 
 const charSets = {
