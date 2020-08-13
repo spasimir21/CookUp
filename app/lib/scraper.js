@@ -329,6 +329,52 @@ function zvezdevScraper(html) {
     return recipe;
 }
 
+function gotveteSMenScraper(html) {
+    const recipe = {};
+
+    //Name
+    recipe.name = html.querySelector("h1[itemprop='name']").textContent;
+
+    //Extra
+    html.querySelector('.products').children[0].remove();
+    html.querySelector("[itemprop='recipeInstructions']").children[0].remove();
+
+    html.querySelectorAll('.products br').forEach(el =>
+        el.replaceWith(document.createTextNode('\n'))
+    );
+    html.querySelectorAll('.products li').forEach(el => {
+        el.textContent += '\n';
+    });
+
+    html.querySelectorAll("[itemprop='recipeInstructions'] br").forEach(el =>
+        el.replaceWith(document.createTextNode('\n'))
+    );
+    html.querySelectorAll("[itemprop='recipeInstructions'] li").forEach(el => {
+        el.textContent += '\n';
+    });
+
+    //Ingredients
+    recipe.ingredients = html
+        .querySelector('.products')
+        .textContent.split('\n');
+
+    //Steps
+    recipe.steps = html
+        .querySelector("[itemprop='recipeInstructions']")
+        .textContent.split('\n');
+
+    //Clean-up
+    recipe.ingredients = recipe.ingredients.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    recipe.steps = recipe.steps.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    return recipe;
+}
+
 //Validator
 
 function validate(url, scrappers) {
@@ -419,7 +465,9 @@ const scrappers = {
     'www.az-gotvia.bg': azGotviaScraper,
     'az-gotvia.bg': azGotviaScraper,
     'www.zvezdev.com': zvezdevScraper,
-    'zvezdev.com': zvezdevScraper
+    'zvezdev.com': zvezdevScraper,
+    'www.gotvetesmen.com': gotveteSMenScraper,
+    'gotvetesmen.com': gotveteSMenScraper
 };
 
 const charSets = {
