@@ -207,6 +207,41 @@ function bonapetiScraper(html) {
     return recipe;
 }
 
+function ezineScraper(html) {
+    const recipe = {};
+
+    //Name
+    recipe.name = html.querySelector('h1').textContent;
+
+    //Change ingredient seperators
+    html.querySelectorAll('.sub').forEach(node => {
+        if (!node.textContent.toLowerCase().includes('за '))
+            node.textContent = 'За ' + node.textContent;
+    });
+
+    //Ingredients
+    recipe.ingredients = [];
+    html.querySelectorAll('.products > ul > li').forEach(node => {
+        recipe.ingredients.push(node.textContent);
+    });
+
+    //Steps
+    recipe.steps = Array.from(html.querySelectorAll('.desc')).map(
+        el => el.innerText
+    );
+
+    //Clean-up
+    recipe.ingredients = recipe.ingredients.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    recipe.steps = recipe.steps.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    return recipe;
+}
+
 //Validator
 
 function validate(url, scrappers) {
@@ -289,7 +324,8 @@ const scrappers = {
     'www.receptite.com': receptiteScraper,
     'receptite.com': receptiteScraper,
     'www.bonapeti.bg': bonapetiScraper,
-    'bonapeti.bg': bonapetiScraper
+    'bonapeti.bg': bonapetiScraper,
+    'recepti.ezine.bg': ezineScraper
 };
 
 const charSets = {
