@@ -147,6 +147,11 @@ function receptiteScraper(html) {
     //Name
     recipe.name = html.querySelector("[itemprop='name']").innerText;
 
+    //Extra
+    html.querySelectorAll("[itemprop='recipeInstructions'] br").forEach(el => {
+        el.replaceWith(document.createTextNode('\n'));
+    });
+
     //Ingredients
     recipe.ingredients = Array.from(
         html.querySelectorAll("[itemprop='ingredients']")
@@ -158,7 +163,7 @@ function receptiteScraper(html) {
     //Steps
     recipe.steps = html
         .querySelector("[itemprop='recipeInstructions']")
-        .innerHTML.split('<br>');
+        .textContent.split('\n');
 
     //Clean-up
     recipe.ingredients = recipe.ingredients.filter(
@@ -270,6 +275,32 @@ function gotvachaScraper(html) {
     return recipe;
 }
 
+function azGotviaScraper(html) {
+    const recipe = {};
+
+    //Name
+    recipe.name = html.querySelector('h1').textContent;
+
+    //Ingredients
+    recipe.ingredients = Array.from(
+        html.querySelectorAll('.ingredients div')
+    ).map(el => el.textContent);
+
+    //Steps
+    recipe.steps = [html.querySelector('.instructions p').textContent];
+
+    //Clean-up
+    recipe.ingredients = recipe.ingredients.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    recipe.steps = recipe.steps.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    return recipe;
+}
+
 //Validator
 
 function validate(url, scrappers) {
@@ -356,7 +387,9 @@ const scrappers = {
     'bonapeti.bg': bonapetiScraper,
     'recepti.ezine.bg': ezineScraper,
     'www.gotvacha.com': gotvachaScraper,
-    'gotvacha.com': gotvachaScraper
+    'gotvacha.com': gotvachaScraper,
+    'www.az-gotvia.bg': azGotviaScraper,
+    'az-gotvia.bg': azGotviaScraper
 };
 
 const charSets = {
