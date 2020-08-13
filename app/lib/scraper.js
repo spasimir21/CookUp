@@ -301,6 +301,34 @@ function azGotviaScraper(html) {
     return recipe;
 }
 
+function zvezdevScraper(html) {
+    const recipe = {};
+
+    //Name
+    recipe.name = html.querySelector("[itemprop='name']").textContent;
+
+    //Ingredients
+    recipe.ingredients = Array.from(
+        html.querySelectorAll('.row .col-sm-6.col-md-4 div p')
+    ).map(el => el.textContent);
+
+    //Steps
+    recipe.steps = Array.from(html.querySelectorAll('.row.step p')).map(
+        el => el.textContent
+    );
+
+    //Clean-up
+    recipe.ingredients = recipe.ingredients.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    recipe.steps = recipe.steps.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    return recipe;
+}
+
 //Validator
 
 function validate(url, scrappers) {
@@ -389,7 +417,9 @@ const scrappers = {
     'www.gotvacha.com': gotvachaScraper,
     'gotvacha.com': gotvachaScraper,
     'www.az-gotvia.bg': azGotviaScraper,
-    'az-gotvia.bg': azGotviaScraper
+    'az-gotvia.bg': azGotviaScraper,
+    'www.zvezdev.com': zvezdevScraper,
+    'zvezdev.com': zvezdevScraper
 };
 
 const charSets = {
