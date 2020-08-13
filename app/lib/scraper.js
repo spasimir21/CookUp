@@ -29,10 +29,14 @@ function supichkaScraper(html) {
         recipe.steps.push(node.textContent);
     });
 
+    //Clean-up
     recipe.ingredients = recipe.ingredients.filter(
-        e => e.replace(/[\s\n]+/g, '') != 0
+        e => e.replace(/[\s\n]+/g, '').length != 0
     );
-    recipe.steps = recipe.steps.filter(e => e.replace(/[\s\n]+/g, '') != 0);
+
+    recipe.steps = recipe.steps.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
 
     return recipe;
 }
@@ -43,7 +47,7 @@ function gotvachScraper(html) {
     //Name
     recipe.name = html.querySelector('h1').textContent;
 
-    //Change unneeded ingredient seperators
+    //Change ingredient seperators
     html.querySelectorAll('.sub').forEach(node => {
         if (!node.textContent.toLowerCase().includes('за '))
             node.textContent = 'За ' + node.textContent;
@@ -63,10 +67,14 @@ function gotvachScraper(html) {
 
     recipe.steps.pop(); //Remove the last paragraph (it`s unneeded)
 
+    //Clean-up
     recipe.ingredients = recipe.ingredients.filter(
-        e => e.replace(/[\s\n]+/g, '') != 0
+        e => e.replace(/[\s\n]+/g, '').length != 0
     );
-    recipe.steps = recipe.steps.filter(e => e.replace(/[\s\n]+/g, '') != 0);
+
+    recipe.steps = recipe.steps.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
 
     return recipe;
 }
@@ -93,15 +101,19 @@ function kulinarScraper(html) {
         recipe.steps.push(node.textContent);
     });
 
+    //Clean-up
     recipe.ingredients = recipe.ingredients.filter(
-        e => e.replace(/[\s\n]+/g, '') != 0
+        e => e.replace(/[\s\n]+/g, '').length != 0
     );
-    recipe.steps = recipe.steps.filter(e => e.replace(/[\s\n]+/g, '') != 0);
+
+    recipe.steps = recipe.steps.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
 
     return recipe;
 }
 
-function _1001recepti(html) {
+function _1001receptiScraper(html) {
     const recipe = {};
 
     const json = JSON.parse(
@@ -116,6 +128,46 @@ function _1001recepti(html) {
 
     //Steps
     recipe.steps = json.recipeInstructions.map(step => step.text);
+
+    //Clean-up
+    recipe.ingredients = recipe.ingredients.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    recipe.steps = recipe.steps.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    return recipe;
+}
+
+function receptiteScraper(html) {
+    const recipe = {};
+
+    //Name
+    recipe.name = html.querySelector("[itemprop='name']").innerText;
+
+    //Ingredients
+    recipe.ingredients = Array.from(
+        html.querySelectorAll("[itemprop='ingredients']")
+    ).map(el => {
+        if (el.querySelector('.prod_za')) return el.innerText;
+        return el.innerText.slice(2);
+    });
+
+    //Steps
+    recipe.steps = html
+        .querySelector("[itemprop='recipeInstructions']")
+        .innerHTML.split('<br>');
+
+    //Clean-up
+    recipe.ingredients = recipe.ingredients.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
+
+    recipe.steps = recipe.steps.filter(
+        e => e.replace(/[\s\n]+/g, '').length != 0
+    );
 
     return recipe;
 }
@@ -196,9 +248,11 @@ const scrappers = {
     'recepti.gotvach.bg': gotvachScraper,
     'm.kulinar.bg': kulinarScraper,
     'kulinar.bg': kulinarScraper,
-    '1001recepti.com': _1001recepti,
-    'www.1001recepti.com': _1001recepti,
-    'm.1001recepti.com': _1001recepti
+    '1001recepti.com': _1001receptiScraper,
+    'www.1001recepti.com': _1001receptiScraper,
+    'm.1001recepti.com': _1001receptiScraper,
+    'www.receptite.com': receptiteScraper,
+    'receptite.com': receptiteScraper
 };
 
 const charSets = {
