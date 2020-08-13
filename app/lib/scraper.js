@@ -101,6 +101,25 @@ function kulinarScraper(html) {
     return recipe;
 }
 
+function _1001recepti(html) {
+    const recipe = {};
+
+    const json = JSON.parse(
+        html.querySelector("script[type='application/ld+json']").innerText
+    );
+
+    //Name
+    recipe.name = json.name;
+
+    //Ingredients
+    recipe.ingredients = json.recipeIngredient;
+
+    //Steps
+    recipe.steps = json.recipeInstructions.map(step => step.text);
+
+    return recipe;
+}
+
 //Validator
 
 function validate(url, scrappers) {
@@ -113,14 +132,20 @@ function validate(url, scrappers) {
 
     if (scrapper == null) throw err;
 
-    return scrapper;
+    return [scrapper, hostname];
 }
 
 //Fetcher
 
-async function fetchSite(url) {
+async function fetchSite(url, charSet) {
     const res = await fetch(`${window.corsProxy}${url}`);
-    const text = await res.text();
+    let text = '';
+
+    if (charSet == null) {
+        text = await res.text();
+    } else {
+        text = new TextDecoder(charSet).decode(await res.arrayBuffer());
+    }
 
     return new DOMParser().parseFromString(text, 'text/html');
 }
@@ -170,14 +195,23 @@ const scrappers = {
     'supichka.com': supichkaScraper,
     'recepti.gotvach.bg': gotvachScraper,
     'm.kulinar.bg': kulinarScraper,
-    'kulinar.bg': kulinarScraper
+    'kulinar.bg': kulinarScraper,
+    '1001recepti.com': _1001recepti,
+    'www.1001recepti.com': _1001recepti,
+    'm.1001recepti.com': _1001recepti
+};
+
+const charSets = {
+    '1001recepti.com': 'windows-1251',
+    'www.1001recepti.com': 'windows-1251',
+    'm.1001recepti.com': 'windows-1251'
 };
 
 async function scrapeRecipe(url, cb) {
     if (cb('validating') == true) return;
-    const scrapper = validate(url, scrappers);
+    const [scrapper, hostname] = validate(url, scrappers);
     if (cb('fetching') == true) return;
-    const html = await fetchSite(url);
+    const html = await fetchSite(url, charSets[hostname]);
     if (cb('scrapping') == true) return;
     const recipe = scrapper(html);
     return await translateRecipe(recipe, cb);
